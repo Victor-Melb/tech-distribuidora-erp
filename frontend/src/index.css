@@ -1,0 +1,411 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* ============================================================================
+ * DESIGN TOKENS CORPORATIVOS — MODO CLARO (PADRÃO) & MODO ESCURO
+ * ============================================================================ */
+:root {
+  color-scheme: light;
+
+  --bg-canvas: #f3f6fa;
+  --bg-sidebar: #ffffff;
+  --bg-topbar: rgba(255, 255, 255, 0.92);
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #f8fafc;
+  --bg-surface-hover: #f1f5f9;
+  --bg-inset: #f1f5f9;
+  --bg-showcase: #0f172a;
+
+  --border-subtle: #e2e8f0;
+  --border-medium: #cbd5e1;
+  --border-strong: #94a3b8;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+
+  /* Corporate Cobalt Blue Accent (Contraste > 5.1:1 com texto branco) */
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-text: #1d4ed8;
+  --accent-soft: rgba(37, 99, 235, 0.1);
+  --accent-border: rgba(37, 99, 235, 0.3);
+  --accent-ink: #ffffff;
+
+  /* Semantic Tokens */
+  --status-success: #047857;
+  --status-success-bg: rgba(16, 185, 129, 0.12);
+  --status-success-border: rgba(5, 150, 105, 0.28);
+
+  --status-warning: #b45309;
+  --status-warning-bg: rgba(245, 158, 11, 0.13);
+  --status-warning-border: rgba(217, 119, 6, 0.3);
+
+  --status-danger: #be123c;
+  --status-danger-bg: rgba(244, 63, 94, 0.11);
+  --status-danger-border: rgba(225, 29, 72, 0.28);
+
+  --status-info: #1d4ed8;
+  --status-info-bg: rgba(37, 99, 235, 0.1);
+  --status-info-border: rgba(37, 99, 235, 0.28);
+
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04), 0 6px 16px -6px rgba(15, 23, 42, 0.07);
+  --shadow-panel: 0 2px 6px rgba(15, 23, 42, 0.04), 0 14px 32px -12px rgba(15, 23, 42, 0.1);
+  --grid-line: rgba(15, 23, 42, 0.04);
+}
+
+:root.dark {
+  color-scheme: dark;
+
+  --bg-canvas: #090e17;
+  --bg-sidebar: #0e1522;
+  --bg-topbar: rgba(14, 21, 34, 0.9);
+  --bg-surface: #111927;
+  --bg-surface-elevated: #172133;
+  --bg-surface-hover: #1d293f;
+  --bg-inset: #0b111c;
+  --bg-showcase: #0b111c;
+
+  --border-subtle: rgba(148, 163, 184, 0.14);
+  --border-medium: rgba(148, 163, 184, 0.22);
+  --border-strong: rgba(148, 163, 184, 0.36);
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #8292a8;
+
+  /* Corporate Blue on Dark Slate */
+  --accent: #2563eb;
+  --accent-hover: #3b82f6;
+  --accent-text: #60a5fa;
+  --accent-soft: rgba(59, 130, 246, 0.16);
+  --accent-border: rgba(96, 165, 250, 0.36);
+  --accent-ink: #ffffff;
+
+  --status-success: #34d399;
+  --status-success-bg: rgba(52, 211, 153, 0.12);
+  --status-success-border: rgba(52, 211, 153, 0.3);
+
+  --status-warning: #fbbf24;
+  --status-warning-bg: rgba(251, 191, 36, 0.12);
+  --status-warning-border: rgba(251, 191, 36, 0.3);
+
+  --status-danger: #fb7185;
+  --status-danger-bg: rgba(251, 113, 133, 0.12);
+  --status-danger-border: rgba(251, 113, 133, 0.3);
+
+  --status-info: #60a5fa;
+  --status-info-bg: rgba(96, 165, 250, 0.14);
+  --status-info-border: rgba(96, 165, 250, 0.3);
+
+  --shadow-card: inset 0 1px 0 0 rgba(255, 255, 255, 0.05), 0 8px 20px -10px rgba(0, 0, 0, 0.55);
+  --shadow-panel: inset 0 1px 0 0 rgba(255, 255, 255, 0.06), 0 18px 36px -14px rgba(0, 0, 0, 0.72);
+  --grid-line: rgba(148, 163, 184, 0.05);
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--bg-canvas);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================================
+ * VIEW TRANSITION — EXPANSÃO CIRCULAR DO MODO CLARO / ESCURO
+ * ============================================================================ */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+/* ============================================================================
+ * ANIMAÇÃO CRIATIVA DO BOTÃO SOL <-> LUA + ESTRELAS
+ * ============================================================================ */
+.theme-toggle-orb {
+  transition: transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    color 250ms ease;
+}
+
+.theme-toggle-rays {
+  transform-origin: center;
+  transition: transform 450ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 250ms ease;
+}
+
+.theme-toggle-star {
+  transform-origin: center;
+  transition: transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 240ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle-orb,
+  .theme-toggle-rays,
+  .theme-toggle-star {
+    transition: none !important;
+  }
+}
+
+/* ============================================================================
+ * CLASSES UTILITÁRIAS SEMÂNTICAS DO DESIGN SYSTEM CORPORATIVO
+ * ============================================================================ */
+@layer utilities {
+  .surface-panel {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-panel);
+  }
+
+  .surface-card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    box-shadow: var(--shadow-card);
+    transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+  }
+
+  .surface-card-interactive:hover {
+    border-color: var(--accent-border);
+    background-color: var(--bg-surface-elevated);
+  }
+
+  .surface-inset {
+    background-color: var(--bg-inset);
+    border: 1px solid var(--border-subtle);
+  }
+
+  .field-control {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-medium);
+    color: var(--text-primary);
+    border-radius: 0.5rem;
+    transition: border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+  }
+
+  .field-control::placeholder {
+    color: var(--text-muted);
+  }
+
+  .field-control:hover:not(:disabled) {
+    border-color: var(--border-strong);
+  }
+
+  .field-control:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  .btn-corporate-primary {
+    background-color: var(--accent);
+    color: var(--accent-ink);
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+  }
+
+  .btn-corporate-primary:hover:not(:disabled) {
+    background-color: var(--accent-hover);
+  }
+
+  .architectural-grid {
+    background-image:
+      linear-gradient(to right, rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-canvas);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
+}
+
+
+/* ── Top Navbar & Liquid Glass Pill Transition ── */
+.topbar-docked,
+.topbar-floating {
+  position: relative;
+}
+
+.topbar-docked::before,
+.topbar-floating::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.topbar-docked {
+  background-color: var(--bg-topbar);
+  background-color: color-mix(in srgb, var(--bg-topbar) 90%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.topbar-docked::before {
+  opacity: 0;
+}
+
+.topbar-floating {
+  background-color: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(11px) saturate(165%) brightness(1.03);
+  -webkit-backdrop-filter: blur(11px) saturate(165%) brightness(1.03);
+  box-shadow:
+    0 14px 36px -12px rgba(15, 23, 42, 0.16),
+    0 4px 12px -4px rgba(15, 23, 42, 0.08),
+    0 0 0 1px rgba(15, 23, 42, 0.06);
+}
+
+.topbar-floating::before {
+  opacity: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.44) 0%,
+    rgba(255, 255, 255, 0.1) 44%,
+    rgba(255, 255, 255, 0.03) 100%
+  );
+  box-shadow:
+    inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -1px 1px 0 rgba(15, 23, 42, 0.08);
+}
+
+:root.dark .topbar-floating {
+  background-color: rgba(11, 18, 34, 0.24);
+  border-color: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(12px) saturate(175%) brightness(1.06);
+  -webkit-backdrop-filter: blur(12px) saturate(175%) brightness(1.06);
+  box-shadow:
+    0 20px 44px -12px rgba(2, 6, 23, 0.65),
+    0 6px 16px -6px rgba(2, 6, 23, 0.4);
+}
+
+:root.dark .topbar-floating::before {
+  opacity: 1;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.13) 0%,
+    rgba(255, 255, 255, 0.03) 45%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  box-shadow:
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.24),
+    inset 0 -1px 1px 0 rgba(2, 6, 23, 0.38);
+}
+
+@keyframes popoverEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.975);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-popover-enter {
+  animation: popoverEnter 170ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes modalBackdropEnter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modalBackdropExit {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes modalPanelEnter {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes modalPanelExit {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(8px) scale(0.975);
+  }
+}
+
+.animate-modal-backdrop-enter {
+  animation: modalBackdropEnter 200ms ease-out forwards;
+}
+
+.animate-modal-backdrop-exit {
+  animation: modalBackdropExit 160ms ease-in forwards;
+}
+
+.animate-modal-panel-enter {
+  animation: modalPanelEnter 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-modal-panel-exit {
+  animation: modalPanelExit 160ms ease-in forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-popover-enter,
+  .animate-modal-backdrop-enter,
+  .animate-modal-backdrop-exit,
+  .animate-modal-panel-enter,
+  .animate-modal-panel-exit {
+    animation: none;
+  }
+}
