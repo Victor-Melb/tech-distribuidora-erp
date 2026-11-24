@@ -13,10 +13,8 @@ from core.validators import (
 PerfilTipo = Literal["Vendedor", "Gerente", "Administrador"]
 LOGIN_REGEX = re.compile(r"^[a-zA-Z0-9._-]+$")
 
-
-# ==============================================================================
 # 1. AUTENTICAÇÃO E USUÁRIOS (MÓDULO FOCO DE SEGURANÇA)
-# ==============================================================================
+
 class LoginRequest(BaseModel):
     login: str = Field(..., min_length=3, max_length=50, description="Identificador de login do usuário")
     senha: str = Field(..., min_length=1, max_length=100, description="Senha de acesso")
@@ -129,10 +127,8 @@ class LogAuditoriaResponse(BaseModel):
 
     model_config = ConfigDict(from_attributes=True)
 
-
-# ==============================================================================
 # 2. CLIENTES
-# ==============================================================================
+
 class ClienteBase(BaseModel):
     nome: str = Field(..., min_length=3, max_length=100)
     cpf_cnpj: str = Field(..., min_length=11, max_length=18)
@@ -182,9 +178,9 @@ class Cliente(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
 
-# ==============================================================================
+
 # 3. CATEGORIAS E PRODUTOS (ESTOQUE)
-# ==============================================================================
+
 class CategoriaBase(BaseModel):
     nome: str = Field(..., min_length=2, max_length=100)
     descricao: Optional[str] = Field(default=None, max_length=500)
@@ -217,9 +213,9 @@ class Produto(ProdutoBase):
     model_config = ConfigDict(from_attributes=True)
 
 
-# ==============================================================================
-# 4. VENDAS E ITENS DE VENDA
-# ==============================================================================
+
+# VENDAS E ITENS DE VENDA
+
 class ItemVendaRequest(BaseModel):
     idProduto: int = Field(..., gt=0)
     quantidade: int = Field(..., gt=0, le=10_000, description="A quantidade vendida deve ser maior que zero")
@@ -264,9 +260,7 @@ class Venda(VendaBase):
     model_config = ConfigDict(from_attributes=True)
 
 
-# ==============================================================================
-# 5. FINANCEIRO E LOGÍSTICA
-# ==============================================================================
+# FINANCEIRO E LOGÍSTICA
 class TransacaoFinanceiraBase(BaseModel):
     tipo: Literal["Receber", "Pagar"]
     descricao: str = Field(..., min_length=3, max_length=255)
